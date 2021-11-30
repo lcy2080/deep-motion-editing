@@ -1,5 +1,9 @@
 import argparse
 
+import platform
+
+platform_name = platform.system()
+
 
 def get_parser():
     parser = argparse.ArgumentParser()
@@ -68,5 +72,6 @@ def get_std_bvh(args=None, dataset=None):
 
 def try_mkdir(path):
     import os
+    path = path.replace('/','\\')
     if not os.path.exists(path):
-        os.system('mkdir -p {}'.format(path))
+        os.system('{} {}'.format("mkdir" if platform_name == "Windows" else "mkdir -p", path))

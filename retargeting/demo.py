@@ -23,8 +23,8 @@ def example(src_name, dest_name, bvh_name, test_type, output_path):
 
     input_file = './datasets/Mixamo/{}/{}'.format(src_name, bvh_name)
     ref_file = './datasets/Mixamo/{}/{}'.format(dest_name, bvh_name)
-    copy_ref_file(input_file, pjoin(output_path, 'input.bvh'))
-    copy_ref_file(ref_file, pjoin(output_path, 'gt.bvh'))
+    copy_ref_file(input_file, pjoin(output_path, 'input.bvh').replace('\\', '/'))
+    copy_ref_file(ref_file, pjoin(output_path, 'gt.bvh').replace('\\', '/'))
     height = get_height(input_file)
 
     bvh_name = bvh_name.replace(' ', '_')
@@ -32,13 +32,13 @@ def example(src_name, dest_name, bvh_name, test_type, output_path):
     ref_file = './datasets/Mixamo/{}/{}'.format(dest_name, bvh_name)
 
     cmd = 'python eval_single_pair.py --input_bvh={} --target_bvh={} --output_filename={} --test_type={}'.format(
-        input_file, ref_file, pjoin(output_path, 'result.bvh'), test_type
+        input_file, ref_file, pjoin(output_path, 'result.bvh').replace('\\', '/'), test_type
     )
     os.system(cmd)
 
-    fix_foot_contact(pjoin(output_path, 'result.bvh'),
-                     pjoin(output_path, 'input.bvh'),
-                     pjoin(output_path, 'result.bvh'),
+    fix_foot_contact(pjoin(output_path, 'result.bvh').replace('\\', '/'),
+                     pjoin(output_path, 'input.bvh').replace('\\', '/'),
+                     pjoin(output_path, 'result.bvh').replace('\\', '/'),
                      height)
 
 

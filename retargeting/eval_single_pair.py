@@ -4,6 +4,10 @@ from models import create_model
 from datasets import create_dataset
 import option_parser
 
+import platform
+
+platform_name = platform.system()
+
 
 def eval_prepare(args):
     character = []
@@ -90,9 +94,12 @@ def main():
 
     model.set_input(input_motion)
     model.test()
+    
+    src_file = "{}\\{}\\0_{}.bvh".format(model.bvh_path.replace("/", "\\"), output_character_name, src_id)
+    dst_file = output_filename.replace("/", "\\")
+    command = f'{"copy" if platform_name == "Windows" else "cp"} \"{src_file}\" \"{dst_file}\"'
 
-    os.system('cp "{}/{}/0_{}.bvh" "./{}"'.format(model.bvh_path, output_character_name, src_id, output_filename))
-
+    os.system(command)
 
 if __name__ == '__main__':
     main()

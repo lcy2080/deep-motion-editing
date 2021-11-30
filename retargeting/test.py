@@ -6,6 +6,10 @@ from option_parser import try_mkdir
 from eval import eval
 import argparse
 
+import platform
+
+platform_name = platform.system()
+
 
 def batch_copy(source_path, suffix, dest_path, dest_suffix=None):
     try_mkdir(dest_path)
@@ -14,9 +18,9 @@ def batch_copy(source_path, suffix, dest_path, dest_suffix=None):
     length = len('_{}.bvh'.format(suffix))
     for f in files:
         if dest_suffix is not None:
-            cmd = 'cp \"{}\" \"{}\"'.format(os.path.join(source_path, f), os.path.join(dest_path, f[:-length] + '_{}.bvh'.format(dest_suffix)))
+            cmd = '{} \"{}\" \"{}\"'.format("copy" if platform_name == "Windows" else "cp", os.path.join(source_path, f), os.path.join(dest_path, f[:-length] + '_{}.bvh'.format(dest_suffix)))
         else:
-            cmd = 'cp \"{}\" \"{}\"'.format(os.path.join(source_path, f), os.path.join(dest_path, f[:-length] + '.bvh'))
+            cmd = '{} \"{}\" \"{}\"'.format("copy" if platform_name == "Windows" else "cp",os.path.join(source_path, f), os.path.join(dest_path, f[:-length] + '.bvh'))
         os.system(cmd)
 
 
