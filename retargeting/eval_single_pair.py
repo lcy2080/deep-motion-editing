@@ -94,10 +94,17 @@ def main():
 
     model.set_input(input_motion)
     model.test()
+
+    copy_command = "copy" if platform_name == "Windows" else "cp"
     
-    src_file = "{}\\{}\\0_{}.bvh".format(model.bvh_path.replace("/", "\\"), output_character_name, src_id)
-    dst_file = output_filename.replace("/", "\\")
-    command = f'{"copy" if platform_name == "Windows" else "cp"} \"{src_file}\" \"{dst_file}\"'
+    src_file = "{}/{}/0_{}.bvh".format(model.bvh_path, output_character_name, src_id)
+    dst_file = output_filename
+
+    if platform_name=="Windows":
+        src_file = src_file.replace("/", "\\")
+        dst_file = dst_file.replace("/", "\\")
+
+    command = f'{copy_command} \"{src_file}\" \"{dst_file}\"'
 
     os.system(command)
 

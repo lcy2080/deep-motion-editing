@@ -72,6 +72,11 @@ def get_std_bvh(args=None, dataset=None):
 
 def try_mkdir(path):
     import os
-    path = path.replace('/','\\')
+    import traceback
+    # for line in traceback.format_stack():
+    #     print(line.strip())
+    if platform_name == "Windows":
+        path = path.replace('/','\\')
+    
     if not os.path.exists(path):
         os.system('{} {}'.format("mkdir" if platform_name == "Windows" else "mkdir -p", path))
